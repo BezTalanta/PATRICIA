@@ -1,9 +1,11 @@
 #include "patr.hpp"
 #include <iostream>
+#include <time.h>
 
 int main(){
     patr test;
     std::string command;
+    time_t start = clock();
     while(std::cin >> command && command != "\x4"){
         if(command == "+"){
             std::string key; std::cin >> key;
@@ -46,5 +48,6 @@ int main(){
         }
     }
     test.Clear();
+    std::cout << "Time: " << (double)(clock() - start)/CLOCKS_PER_SEC << '\n';
     return 0;
 }
