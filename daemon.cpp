@@ -3,7 +3,7 @@
 #include <time.h>
 
 int main(){
-    patr test;
+    patr test, test2;
     std::string command;
     time_t start = clock();
     while(std::cin >> command && command != "\x4"){
@@ -47,7 +47,6 @@ int main(){
             std::cout << "\tCommand \"" + command + "\" isn't available\n";
         }
     }
-    test.Clear();
     std::cout << "Time: " << (double)(clock() - start)/CLOCKS_PER_SEC << '\n';
     return 0;
 }

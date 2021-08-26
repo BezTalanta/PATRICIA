@@ -6,6 +6,7 @@ struct Patricia::Node{
     int value;
     size_t index;
     Node *right, *left;
+    //Node *right = nullptr, *left = nullptr;
 
     Node(const std::string& key, const int& value, const int& index)
         : key(key), value(value), index(index), left(nullptr), right(nullptr) {
@@ -19,7 +20,7 @@ struct Patricia::Node{
     }
 };
 
-void Patricia::Print(Node* node, bool isLeft, int offset, int prevIndex) const{
+void Patricia::Print(Node* node, bool isLeft, int offset, const size_t& prevIndex) const{
     if(node->index <= prevIndex)
         return;
 
@@ -163,13 +164,13 @@ void Patricia::Clear(){
         ClearNode(root->left);
     delete root;
     root = nullptr;
+    std::cout << "kek!\n";
 }
 
-// TODO make it faster
 std::tuple<Patricia::Node*, Patricia::Node*, Patricia::Node*> Patricia::SearchE(const std::string& findKey) const{
     Node *currentNode = root->left, *prevNode = root, *prevPrevNode = root;
     while(currentNode->index > prevNode->index){
-        int charIndex = (currentNode->index - 1) / BIT_COUNT;
+        size_t charIndex = (currentNode->index - 1) / BIT_COUNT;
 
         // FindKey is less than need char
         if(charIndex >= findKey.size()){
@@ -199,7 +200,7 @@ Patricia::Node* Patricia::Search(const std::string& findKey) const{
     Node *currentNode = root->left, *prevNode = root;
 
     while(currentNode->index > prevNode->index){
-        int charIndex = (currentNode->index - 1) / BIT_COUNT;
+        size_t charIndex = (currentNode->index - 1) / BIT_COUNT;
 
         // FindKey is less than need char
         if(charIndex >= findKey.size()){
@@ -222,14 +223,14 @@ Patricia::Node* Patricia::Search(const std::string& findKey) const{
     return currentNode;
 }
 
-void Patricia::Insert(const std::string& key, const int& value, const int& index){
+void Patricia::Insert(const std::string& key, const int& value, const size_t& index){
     Node *currentNode = root->left, *prevNode = root;
 
     while(currentNode->index > prevNode->index){
         if(currentNode->index > index)
             break;
 
-        int charIndex = (currentNode->index - 1) / BIT_COUNT;
+        size_t charIndex = (currentNode->index - 1) / BIT_COUNT;
         // FindKey is less than need char
         if(charIndex >= key.size()){
             prevNode = currentNode;
@@ -268,10 +269,4 @@ void Patricia::ClearNode(Node *node){
         ClearNode(node->right);
 
     delete node;
-}
-
-void Patricia::Test(){
-    std::tuple<Node*, Node*, Node*> test = SearchE("f");
-    std::cout << std::get<0>(test)->key << ' ' << std::get<1>(test)->key << ' ' << std::get<2>(test)->key << '\n';
-    std::cout << std::get<0>(test) << ' ' << std::get<1>(test) << ' ' << std::get<2>(test) << '\n';
 }

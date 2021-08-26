@@ -9,17 +9,23 @@ typedef class Patricia{
 private:
     struct Node;
     Node *root = nullptr;
-    void Print(Node* node, bool isLeft, int offset, int prevIndex) const;
+    // Print node
+    void Print(Node* node, bool isLeft, int offset, const size_t& prevIndex) const;
+    // Search but return 3 nodes
     std::tuple<Node*, Node*, Node*> SearchE(const std::string& findKey) const;
+    // Search return only 1 node
     Node* Search(const std::string& findKey) const;
-    void Insert(const std::string& key, const int& value, const int& index);
+    void Insert(const std::string& key, const int& value, const size_t& index);
     void ClearNode(Node *node);
 public:
     // Printing trie
     void Print() const;
+    // Get value from map
     int& At(const std::string& findKey) const;
     void Add(const std::string& key, int value);
     void Erase(const std::string& key);
     void Clear();
-    void Test();
+    ~Patricia(){
+	Clear();
+    }
 } patr;
